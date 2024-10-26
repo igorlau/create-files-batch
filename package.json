@@ -14,7 +14,7 @@
   "contributes": {
     "commands": [
       {
-        "command": "create-files-batch.create-files",
+        "command": "create-files-batch.create-multiple-files",
         "title": "Create: Multiple Files..."
       }
     ],
