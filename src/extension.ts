@@ -1,25 +1,55 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import * as vscode from 'vscode';
+import type { ExtensionContext } from "vscode";
+import { commands, window, workspace } from "vscode";
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
+type CreationTemplate = {
+  label: string;
+  description: string;
+  suffixes: string[];
+};
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "create-files-batch" is now active!');
+const CUSTOM_CREATION_TEMPLATE: CreationTemplate = {
+  label: "Custom",
+  description: "Create multiple files based on input",
+  suffixes: [],
+};
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('create-files-batch.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from Create Files Batch!');
-	});
+function getTemplates() {
+  const templates = workspace
+    .getConfiguration("create-files-batch")
+    .get<CreationTemplate[]>("templates", []);
 
-	context.subscriptions.push(disposable);
+  templates.push(CUSTOM_CREATION_TEMPLATE);
+
+  return templates;
+}
+
+async function selectTemplate(templates: CreationTemplate[]) {
+  const quickPickItems = templates.map((template) => ({
+    /** Replace description with detail prop to break lines at command palette */
+    detail: template.description,
+    label: template.label,
+    suffixes: template.suffixes,
+  }));
+
+  const selectedTemplate = await window.showQuickPick(quickPickItems, {
+    title: "Select template",
+    placeHolder: "Select a predefined template or use a custom creation",
+  });
+
+  return selectedTemplate;
+}
+
+export function activate(context: ExtensionContext) {
+  const disposable = commands.registerCommand(
+    "create-files-batch.create-files",
+    async () => {
+      const templates = getTemplates();
+      const selectedTemplate = await selectTemplate(templates);
+      window.showInformationMessage(`Got ${selectedTemplate}`);
+    }
+  );
+
+  context.subscriptions.push(disposable);
 }
 
 // This method is called when your extension is deactivated

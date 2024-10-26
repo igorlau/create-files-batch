@@ -14,10 +14,43 @@
   "contributes": {
     "commands": [
       {
-        "command": "create-files-batch.helloWorld",
-        "title": "Hello World"
+        "command": "create-files-batch.create-files",
+        "title": "Create: Multiple Files..."
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Create Files Batch",
+      "properties": {
+        "create-files-batch.templates": {
+          "scope": "resource",
+          "description": "Specifies the predefined templates for file batch creation for the current project.",
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "type": "string",
+                "description": "The template name that will be prompted for the user to select."
+              },
+              "description": {
+                "type": "string",
+                "description": "A brief description of the template to aid the user when prompted to select a template for batch file creation."
+              },
+              "suffixes": {
+                "type": "array",
+                "description": "The predefined file items to be created with the given suffixes (e.g.: [\".ts\",\".spec.ts\"] tells the extension to create two files as \"{prefix}.ts\" and \"{prefix}.spec.ts\" based on user input.",
+                "items": {
+                  "type": "string",
+                  "pattern": "^\\.",
+                  "patternErrorMessage": "The items inside `suffixes` array must start with \".\"."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "pnpm run compile",
