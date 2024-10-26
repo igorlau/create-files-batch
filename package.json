@@ -28,6 +28,11 @@
           "default": [],
           "items": {
             "type": "object",
+            "required": [
+              "label",
+              "description",
+              "suffixes"
+            ],
             "properties": {
               "label": {
                 "type": "string",
