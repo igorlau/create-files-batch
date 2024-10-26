@@ -2,13 +2,32 @@
   "name": "create-files-batch",
   "displayName": "Create Files Batch",
   "description": "This extension is useful when you want to create multiple files under the same prefix or initial name in a given folder but with different scope or extensions.",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "publisher": "igor-lau",
+  "author": {
+    "name": "Igor Lau"
+  },
+  "license": "MIT",
   "engines": {
     "vscode": "^1.94.0"
   },
   "categories": [
     "Other"
   ],
+  "keywords": [
+    "multifile",
+    "multi-file",
+    "create-files",
+    "add-files",
+    "batch"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/igorlau/create-files-batch"
+  },
+  "bugs": {
+    "url": "https://github.com/igorlau/create-files-batch/issues"
+  },
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
