@@ -1,13 +1,16 @@
-import { commands } from "vscode";
 import type { ExtensionContext } from "vscode";
-import { createMultipleFilesCommand } from "./create-multiple-files.command";
+import { commands } from "vscode";
+import { CreateMultipleFilesCommand } from "./create-multiple-files.command";
 
 export function activate(context: ExtensionContext) {
   const disposable = commands.registerCommand(
     "create-files-batch.create-multiple-files",
-    createMultipleFilesCommand
+    async () => {
+      const createMultipleFilesCommand = new CreateMultipleFilesCommand();
+      await createMultipleFilesCommand.execute();
+    }
   );
-  
+
   context.subscriptions.push(disposable);
 }
 
