@@ -29,6 +29,10 @@
     "url": "https://github.com/igorlau/create-files-batch/issues"
   },
   "activationEvents": [],
+  "files": [
+    "README.md",
+    "LICENSE"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
