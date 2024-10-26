@@ -1,5 +1,6 @@
 import type { QuickInputButton, QuickPickItem } from "vscode";
 import { Disposable, QuickInputButtons, window } from "vscode";
+import { CancelFormError, GoBackFormError } from "./errors";
 
 const INITIAL_STEP = 1;
 
@@ -27,27 +28,24 @@ export type Step<FormState> = {
   whenSkip?: () => void;
 };
 
-class ButtonAction {
-  static readonly Back = new ButtonAction();
-  static readonly Cancel = new ButtonAction();
-}
-
 export class MultiStepForm<FormState extends Record<string, unknown>> {
   /**
    * Steps are 1-indexed based;
    */
   private currentStep: number;
-  private skippedSteps: number;
+  private skippedStepsNumber: number;
   private totalSteps: number;
+  private skippedSteps: Record<number, boolean>;
 
   private _state: FormState;
 
   constructor(initialState: FormState) {
     this._state = initialState;
 
-    this.skippedSteps = 0;
+    this.skippedStepsNumber = 0;
     this.currentStep = INITIAL_STEP;
     this.totalSteps = INITIAL_STEP;
+    this.skippedSteps = {};
   }
 
   get state() {
@@ -66,18 +64,33 @@ export class MultiStepForm<FormState extends Record<string, unknown>> {
     this.state = newState;
   }
 
+  get skippedStepsUntilCurrent() {
+    return Object.entries(this.skippedSteps).filter(
+      ([step, isSkipped]) => isSkipped && parseInt(step) < this.currentStep
+    ).length;
+  }
+
   get displayStep() {
-    return this.currentStep - this.skippedSteps;
+    return this.currentStep - this.skippedStepsUntilCurrent;
   }
 
   get displayTotalSteps() {
-    return this.totalSteps - this.skippedSteps;
+    return this.totalSteps - this.skippedStepsUntilCurrent;
   }
 
   public previousStep() {
-    if (this.currentStep > INITIAL_STEP) {
-      this.currentStep -= 1;
+    if (this.currentStep < INITIAL_STEP) {
+      return;
     }
+    const isPreviousStepSkipped = this.skippedSteps[this.currentStep - 1];
+
+    if (!isPreviousStepSkipped) {
+      this.currentStep -= 1;
+      return;
+    }
+
+    this.currentStep -= 1;
+    this.previousStep();
   }
 
   public nextStep() {
@@ -85,19 +98,29 @@ export class MultiStepForm<FormState extends Record<string, unknown>> {
   }
 
   public skipStep() {
-    this.skippedSteps += 1;
+    const hasAlreadySkipped = this.skippedSteps[this.currentStep];
+
+    if (hasAlreadySkipped) {
+      this.currentStep += 1;
+      return;
+    }
+
+    this.skippedSteps[this.currentStep] = true;
     this.currentStep += 1;
+    this.skippedStepsNumber += 1;
   }
 
   public async stepThrough(stepHandlers: Record<number, Step<FormState>>) {
     // Determine the initial total steps based on the step handlers provided
     this.currentStep = INITIAL_STEP;
-    this.skippedSteps = 0;
+    this.skippedStepsNumber = 0;
     this.totalSteps = Object.keys(stepHandlers).length;
+    this.skippedSteps = Object.keys(stepHandlers).reduce((acc, step) => {
+      acc[parseInt(step)] = false;
+      return acc;
+    }, {} as Record<number, boolean>);
 
-    let stop = false;
-
-    while (this.currentStep <= this.totalSteps || !stop) {
+    while (this.currentStep <= this.totalSteps) {
       try {
         const currentStepHandler = stepHandlers[this.currentStep];
 
@@ -111,12 +134,15 @@ export class MultiStepForm<FormState extends Record<string, unknown>> {
         await currentStepHandler.execute();
 
         this.nextStep();
-      } catch (error) {
-        if (error === ButtonAction.Back && this.currentStep > INITIAL_STEP) {
-          this.previousStep();
-        } else {
+      } catch (error: any) {
+        const canGoBack =
+          error.name === "GoBackFormError" && this.currentStep > INITIAL_STEP;
+
+        if (!canGoBack) {
           break;
         }
+
+        this.previousStep();
       }
     }
   }
@@ -157,13 +183,13 @@ export class MultiStepForm<FormState extends Record<string, unknown>> {
       disposables.push(
         quickPick.onDidTriggerButton((button) => {
           if (button === QuickInputButtons.Back) {
-            reject(ButtonAction.Back);
+            reject(GoBackFormError);
           }
         }),
 
         quickPick.onDidChangeSelection((items) => resolve(items[0])),
 
-        quickPick.onDidHide(() => reject(ButtonAction.Cancel))
+        quickPick.onDidHide(() => reject(CancelFormError))
       );
 
       quickPick.show();
@@ -206,13 +232,13 @@ export class MultiStepForm<FormState extends Record<string, unknown>> {
       disposables.push(
         input.onDidTriggerButton((button) => {
           if (button === QuickInputButtons.Back) {
-            reject(ButtonAction.Back);
+            reject(GoBackFormError);
           }
         }),
 
         input.onDidAccept(() => resolve(input.value)),
 
-        input.onDidHide(() => reject(ButtonAction.Cancel))
+        input.onDidHide(() => reject(CancelFormError))
       );
 
       input.show();
