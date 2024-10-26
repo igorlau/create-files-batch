@@ -3,7 +3,3 @@ dist
 node_modules
 .vscode-test/
 *.vsix
-
-# Ignore generated files from local debug
-/playground/*
-!/playground/.vscode

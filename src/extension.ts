@@ -1,10 +1,14 @@
+import { commands } from "vscode";
 import type { ExtensionContext } from "vscode";
-import registerCreateMultipleFilesCmd from "./commands/create-multiple-files";
+import { createMultipleFilesCommand } from "./create-multiple-files.command";
 
 export function activate(context: ExtensionContext) {
-  const createMultipleFilesDisposable = registerCreateMultipleFilesCmd();
-
-  context.subscriptions.push(createMultipleFilesDisposable);
+  const disposable = commands.registerCommand(
+    "create-files-batch.create-multiple-files",
+    createMultipleFilesCommand
+  );
+  
+  context.subscriptions.push(disposable);
 }
 
 // This method is called when your extension is deactivated
