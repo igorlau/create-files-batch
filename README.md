@@ -1,114 +1,109 @@
-# create-files-batch README
+# Create Files Batch
 
-## Features
+Create Files Batch is a VSCode extension designed to streamline file creation by enabling the batch creation of files with a common name but varying suffixes or extensions. This extension is ideal for repetitive setups, such as creating multiple related files in the same folder or setting up new modules with similar structures (e.g., for a new use case in a backend).
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+## Key Features
 
-For example if there is an image subfolder under your extension project workspace:
+- Batch file creation with customizable file suffixes.
+- Templates in settings.json allow pre-defining common file structures.
+- On-the-fly configuration for custom file setups.
 
-\!\[feature X\]\(images/feature-x.png\)
+## Installation
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+Simply install the extension from the Visual Studio Code Marketplace and start using it!
 
-## Requirements
+## Getting Started
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+This guide shows how to set up and use Create Files Batch with both predefined templates and custom options.
 
-## Extension Settings
+### Example: NestJS Use Case
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+Suppose you frequently add new "use case" files in a NestJS backend. Here’s how to automate this structure with a template:
 
-For example:
+1. Add a Template to `settings.json` file in `.vscode` folder
 
-This extension contributes the following settings:
+    Open your settings.json and define a template with a label, description, and file suffixes:
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+    ```json
+    {
+      "create-files-batch": {
+        "templates": [
+            {
+                "label": "NestJS use case",
+                "description": "Creates all the needed files for a new use case in the application.",
+                "suffixes": [".controller.ts", ".service.ts", ".repository.ts", ".module.ts"]
+            }
+        ]
+      }
+    }
+    ```
 
-## Known Issues
+2. Create Files Using the Template
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+    1. Open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`) and search for `Create: Multiple Files...`.
+    2. If more than one workspace is open, select the workspace to create files in.
+    3. Select the "*NestJS use case*" template from the list.
+    4. Specify the destination path.
+    5. Enter a common file name prefix. For example, entering "*auth*" will create:
+       - `auth.controller.ts`
+       - `auth.service.ts`
+       - `auth.repository.ts`
+       - `auth.module.ts`
 
-## Release Notes
+### Creating Files Without a Predefined Template
 
-Users appreciate release notes as you update your extension.
+1. Open the Command Palette and select `Create: Multiple Files...`.
+2. If prompted, choose the workspace.
+3. Select the built-in "*Custom*" option.
+4. Manually specify the suffixes you’d like to use.
+5. Follow the remaining prompts to choose a destination and enter the prefix.
 
-### 1.0.0
+### Screenshots
 
-Initial release of ...
+1. `Create: Multiple Files...` command:
 
-### 1.0.1
+    <img alt="Create Files Batch command" src="./assets/create-files-batch-command.png" />
 
-Fixed issue #.
+2. Workspace selection
 
-### 1.1.0
+    <img alt="Worspace selection" src="./assets/workspace-selection.png" />
 
-Added features X, Y, and Z.
+3. Template selection
 
----
+    <img alt="Template selection" src="./assets/template-selection.png" />
 
-## Following extension guidelines
+4. Destination folder specification
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+    <img alt="Destination folder specification" src="./assets/destination-folder-selection.png" />
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+5. File name specification
 
-## Working with Markdown
+    <img alt="File name specification" src="./assets/file-name-selection.png" />
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+### Additional Configuration Options
 
-## For more information
+You can define multiple templates in your settings.json for different use cases, each with a unique label, description, and suffix structure.
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+```json
+{
+  "create-files-batch": {
+    "templates": [
+        {
+            "label": "New NestJS use case",
+            "description": "Creates all the needed files for a new use case in the application.",
+            "suffixes": [".controller.ts", ".service.ts", ".repository.ts", ".module.ts"]
+        },
+        {
+            "label": "New NestJS use case with test files",
+            "description": "Creates all the needed files for a new use case in the application including test files.",
+            "suffixes": [".controller.ts", ".controller.spec.ts", ".service.ts", ".service.spec.ts", ".repository.ts", ".repository.spec.ts", ".module.ts"]
+        }
+    ]
+  }
+}
+```
 
-**Enjoy!**
+## Attributions
 
-# Welcome to your VS Code Extension
-
-## What's in the folder
-
-* This folder contains all of the files necessary for your extension.
-* `package.json` - this is the manifest file in which you declare your extension and command.
-  * The sample plugin registers a command and defines its title and command name. With this information VS Code can show the command in the command palette. It doesn’t yet need to load the plugin.
-* `src/extension.ts` - this is the main file where you will provide the implementation of your command.
-  * The file exports one function, `activate`, which is called the very first time your extension is activated (in this case by executing the command). Inside the `activate` function we call `registerCommand`.
-  * We pass the function containing the implementation of the command as the second parameter to `registerCommand`.
-
-## Get up and running straight away
-
-* Press `F5` to open a new window with your extension loaded.
-* Run your command from the command palette by pressing (`Ctrl+Shift+P` or `Cmd+Shift+P` on Mac) and typing `Hello World`.
-* Set breakpoints in your code inside `src/extension.ts` to debug your extension.
-* Find output from your extension in the debug console.
-
-## Make changes
-
-* You can relaunch the extension from the debug toolbar after changing code in `src/extension.ts`.
-* You can also reload (`Ctrl+R` or `Cmd+R` on Mac) the VS Code window with your extension to load your changes.
-
-## Explore the API
-
-* You can open the full set of our API when you open the file `node_modules/@types/vscode/index.d.ts`.
-
-## Run tests
-
-* Install the [Extension Test Runner](https://marketplace.visualstudio.com/items?itemName=ms-vscode.extension-test-runner)
-* Run the "watch" task via the **Tasks: Run Task** command. Make sure this is running, or tests might not be discovered.
-* Open the Testing view from the activity bar and click the Run Test" button, or use the hotkey `Ctrl/Cmd + ; A`
-* See the output of the test result in the Test Results view.
-* Make changes to `src/test/extension.test.ts` or create new test files inside the `test` folder.
-  * The provided test runner will only consider files matching the name pattern `**.test.ts`.
-  * You can create folders inside the `test` folder to structure your tests any way you want.
-
-## Go further
-
-* [Follow UX guidelines](https://code.visualstudio.com/api/ux-guidelines/overview) to create extensions that seamlessly integrate with VS Code's native interface and patterns.
-* Reduce the extension size and improve the startup time by [bundling your extension](https://code.visualstudio.com/api/working-with-extensions/bundling-extension).
-* [Publish your extension](https://code.visualstudio.com/api/working-with-extensions/publishing-extension) on the VS Code extension marketplace.
-* Automate builds by setting up [Continuous Integration](https://code.visualstudio.com/api/working-with-extensions/continuous-integration).
-* Integrate to the [report issue](https://code.visualstudio.com/api/get-started/wrapping-up#issue-reporting) flow to get issue and feature requests reported by users.
+- [Multiple layer icons created by pancaza - Flaticon](https://www.flaticon.com/free-icons/multiple-layer)
