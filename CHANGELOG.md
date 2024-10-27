@@ -4,6 +4,13 @@ All notable changes to the "create-files-batch" extension will be documented in 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [Unreleased]
+## 1.0.1 (2024-10-27)
 
-- Initial release
+### 🚀 Features
+
+- add extension logo
+- update README file
+
+## 1.0.0 (2024-10-26)
+
+First release
