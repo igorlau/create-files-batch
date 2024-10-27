@@ -1,8 +1,10 @@
-# Change Log
+# CHANGELOG
 
-All notable changes to the "create-files-batch" extension will be documented in this file.
+## 1.0.2 (2024-10-27)
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+### 🚀 Features
+
+- modify extension logo for better contrast on VSCode dark themes
 
 ## 1.0.1 (2024-10-27)
 

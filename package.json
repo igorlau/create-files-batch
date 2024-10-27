@@ -2,7 +2,7 @@
   "name": "create-files-batch",
   "displayName": "Create Files Batch",
   "description": "This extension is useful when you want to create multiple files under the same prefix or initial name in a given folder but with different scope or extensions.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "publisher": "igor-lau",
   "author": {
     "name": "Igor Lau"
