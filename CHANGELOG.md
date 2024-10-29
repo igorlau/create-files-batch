@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.0.4 (2024-10-29)
+
+### 🐛 Fixes
+
+- fix backward compatibility for older VSCode versions up to v1.90
+
 ## 1.0.3 (2024-10-29)
 
 ### 🚀 Features

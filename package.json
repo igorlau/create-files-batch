@@ -2,7 +2,7 @@
   "name": "create-files-batch",
   "displayName": "Create Files Batch",
   "description": "This extension is useful when you want to create multiple files under the same prefix or initial name in a given folder but with different scope or extensions.",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "publisher": "igor-lau",
   "author": {
     "name": "Igor Lau"
@@ -90,7 +90,7 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.90.0",
+    "@types/vscode": "1.90.0",
     "@types/mocha": "^10.0.9",
     "@types/node": "20.x",
     "@typescript-eslint/eslint-plugin": "^8.10.0",
