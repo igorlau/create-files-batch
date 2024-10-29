@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.0.3 (2024-10-29)
+
+### 🚀 Features
+
+- add backward compatibility for VSCode versions above v1.90 instead of just v1.94+
+
 ## 1.0.2 (2024-10-27)
 
 ### 🚀 Features
