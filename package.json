@@ -2,7 +2,7 @@
   "name": "create-files-batch",
   "displayName": "Create Files Batch",
   "description": "Create multiple files at once with customizable templates.",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "publisher": "igor-lau",
   "author": {
     "name": "Igor Lau"
