@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 2.0.0 (2025-01-12)
+
+### 🚀 Features
+
+- add support for create batch from VSCode context menu;
+- add support for adding a base content for each individual file by setting/config definition;
+
 ## 1.1.0 (2024-10-29)
 
 ### 🐛 Fixes
