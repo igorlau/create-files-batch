@@ -1,6 +1,14 @@
 .vscode/**
+
 .vscode-test/**
+
+assets/**
+!assets/logo.png
+
+docs/**
+
 src/**
+
 .gitignore
 .yarnrc
 **/tsconfig.json
@@ -8,6 +16,3 @@ src/**
 **/*.map
 **/*.ts
 **/.vscode-test.*
-
-assets/**
-!assets/logo.png

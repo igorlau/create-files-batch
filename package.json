@@ -1,8 +1,8 @@
 {
   "name": "create-files-batch",
   "displayName": "Create Files Batch",
-  "description": "This extension is useful when you want to create multiple files under the same prefix or initial name in a given folder but with different scope or extensions.",
-  "version": "1.1.0",
+  "description": "Create multiple files at once with customizable templates.",
+  "version": "2.0.0",
   "publisher": "igor-lau",
   "author": {
     "name": "Igor Lau"
@@ -29,19 +29,33 @@
     "url": "https://github.com/igorlau/create-files-batch/issues"
   },
   "activationEvents": [],
-  "files": [
-    "README.md",
-    "LICENSE"
-  ],
   "main": "./out/extension.js",
   "icon": "assets/logo.png",
   "contributes": {
     "commands": [
       {
-        "command": "create-files-batch.create-multiple-files",
+        "command": "create-files-batch.create-from-command-palette",
+        "title": "Create: Multiple Files..."
+      },
+      {
+        "command": "create-files-batch.create-from-context-menu",
         "title": "Create: Multiple Files..."
       }
     ],
+    "menus": {
+      "explorer/context": [
+        {
+          "when": "explorerResourceIsFolder",
+          "command": "create-files-batch.create-from-context-menu"
+        }
+      ],
+      "commandPalette": [
+        {
+          "when": "false",
+          "command": "create-files-batch.create-from-context-menu"
+        }
+      ]
+    },
     "configuration": {
       "title": "Create Files Batch",
       "properties": {
@@ -65,6 +79,30 @@
               "description": {
                 "type": "string",
                 "description": "A brief description of the template to aid the user when prompted to select a template for batch file creation."
+              },
+              "files": {
+                "type": "array",
+                "description": "The predefined file items to be created with the given suffixes (e.g.: [\".ts\",\".spec.ts\"] tells the extension to create two files as \"{prefix}.ts\" and \"{prefix}.spec.ts\" based on user input.",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "suffixes"
+                  ],
+                  "properties": {
+                    "suffix": {
+                      "type": "string",
+                      "pattern": "^\\.",
+                      "patternErrorMessage": "The `suffix` must start with \".\"."
+                    },
+                    "content": {
+                      "type": "array",
+                      "description": "The content of the file to be created. A predefined template that will be used to create the file. If not provided, the file will be generated empty.",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
               },
               "suffixes": {
                 "type": "array",
