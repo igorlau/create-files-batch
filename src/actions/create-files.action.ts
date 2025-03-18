@@ -16,7 +16,11 @@ export class CreateFilesAction extends Action {
   }: TInput): Promise<void> {
     for (const config of configs) {
       const fileName = `${prefix}${config.suffix}`;
-      const fileUri = Uri.joinPath(destinationFolderUri, fileName);
+      const fileUri = Uri.joinPath(
+        destinationFolderUri,
+        config.additionalPath ?? "",
+        fileName
+      );
       const contentBuffer = new TextEncoder().encode(
         config.content?.join("\n") ?? ""
       );

@@ -10,13 +10,9 @@ import {
   SelectWorkspaceFolderAction,
 } from "../actions";
 import { CreateFilesStepper } from "../create-files-stepper.abstract";
-import {
-  Step,
-  TExtensionConfig,
-  TTemplateItem,
-  TWorkspaceFolder,
-} from "../extension.types";
+import { Step, TTemplateItem, TWorkspaceFolder } from "../extension.types";
 import { CUSTOM_EXTENSION_CONFIG } from "../utils/extension.constants";
+import { getTemplatesConfig } from "../utils/get-configuration";
 
 type FormState = {
   workspace: TWorkspaceFolder | null;
@@ -123,9 +119,7 @@ export class CreateFromCommandPaletteCommand extends CreateFilesStepper<FormStat
   }
 
   private async selectTemplate() {
-    const configs = workspace
-      .getConfiguration("create-files-batch", this.state.workspace?.uri)
-      .get<TExtensionConfig[]>("templates", []);
+    const configs = getTemplatesConfig(this.state.workspace?.uri);
 
     const action = new SelectTemplateAction();
     const selectedTemplate = await action.execute({

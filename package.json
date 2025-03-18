@@ -69,7 +69,7 @@
             "required": [
               "label",
               "description",
-              "suffixes"
+              "files"
             ],
             "properties": {
               "label": {
@@ -86,7 +86,7 @@
                 "items": {
                   "type": "object",
                   "required": [
-                    "suffixes"
+                    "suffix"
                   ],
                   "properties": {
                     "suffix": {
@@ -100,17 +100,12 @@
                       "items": {
                         "type": "string"
                       }
+                    },
+                    "additional-path": {
+                      "type": "string",
+                      "description": "The additional path to be appended to the file path. If not provided, all files will be created within the same folder."
                     }
                   }
-                }
-              },
-              "suffixes": {
-                "type": "array",
-                "description": "The predefined file items to be created with the given suffixes (e.g.: [\".ts\",\".spec.ts\"] tells the extension to create two files as \"{prefix}.ts\" and \"{prefix}.spec.ts\" based on user input.",
-                "items": {
-                  "type": "string",
-                  "pattern": "^\\.",
-                  "patternErrorMessage": "The items inside `suffixes` array must start with \".\"."
                 }
               }
             }

@@ -26,31 +26,29 @@ Suppose you frequently add new "use case" files in a NestJS backend. Here’s ho
 
    ```json
    {
-     "create-files-batch": {
-       "templates": [
-         {
-           "label": "NestJS use case",
-           "description": "Creates all the needed files for a new use case in the application.",
-           "files": [
-             { "suffix": ".controller.ts" },
-             { "suffix": ".service.ts" },
-             { "suffix": ".repository.ts" },
-             {
-               "suffix": ".module.ts",
-               "content": [
-                 "import { Module } from '@nestjs/common';",
-                 "",
-                 "@Module({",
-                 "  controllers: [],",
-                 "  providers: [],",
-                 "})",
-                 "export class Module {}"
-               ]
-             }
-           ]
-         }
-       ]
-     }
+     "create-files-batch.templates": [
+       {
+         "label": "NestJS use case",
+         "description": "Creates all the needed files for a new use case in the application.",
+         "files": [
+           { "suffix": ".controller.ts" },
+           { "suffix": ".service.ts" },
+           { "suffix": ".repository.ts" },
+           {
+             "suffix": ".module.ts",
+             "content": [
+               "import { Module } from '@nestjs/common';",
+               "",
+               "@Module({",
+               "  controllers: [],",
+               "  providers: [],",
+               "})",
+               "export class Module {}"
+             ]
+           }
+         ]
+       }
+     ]
    }
    ```
 
@@ -146,89 +144,90 @@ You can define multiple templates in your settings.json for different use cases,
 
 ```json
 {
-  "create-files-batch": {
-    "templates": [
-      {
-        "label": "NestJS use case",
-        "description": "Creates all the needed files for a new use case in the application.",
-        "files": [
-          {
-            "suffix": ".controller.ts",
-            "content": [
-              "import { Controller } from '@nestjs/common';",
-              "",
-              "@Controller('foo')",
-              "export class FooController {",
-              " constructor() {",
-              " }",
-              "}"
-            ]
-          },
-          {
-            "suffix": ".service.ts",
-            "content": [
-              "import { Injectable, Logger } from '@nestjs/common';",
-              "import { FooRepository } from './foo.repository';",
-              "",
-              "@Injectable()",
-              "export class FooService {",
-              "  private logger = new Logger(FooService.name);",
-              "  constructor(private readonly fooRepository: FooRepository) {}",
-              "}"
-            ]
-          },
-          {
-            "suffix": ".repository.ts",
-            "content": [
-              "import { Repository } from 'typeorm';",
-              "import { InjectRepository } from '@nestjs/typeorm';",
-              "",
-              "export class FooRepository extends Repository<Entity> {",
-              "  constructor(",
-              "    @InjectRepository(User)",
-              "    private repository: Repository<Entity>,",
-              "  ) {",
-              "    super(",
-              "      repository.target,",
-              "      repository.manager,",
-              "      repository.queryRunner,",
-              "    );",
-              "  }",
-              "}"
-            ]
-          },
-          {
-            "suffix": ".module.ts",
-            "content": [
-              "import { Module } from '@nestjs/common';",
-              "import { FooController } from './foo.controller';",
-              "import { FooRepository } from './foo.repository';",
-              "import { FooService } from './foo.service';",
-              "",
-              "@Module({",
-              "  controllers: [FooController],",
-              "  providers: [FooRepository, FooService],",
-              "})",
-              "export class FooModule {}"
-            ]
-          }
-        ]
-      },
-      {
-        "label": "New NestJS use case with test files",
-        "description": "Creates all the needed files for a new use case in the application including test files.",
-        "files": [
-          ".controller.ts",
-          ".controller.spec.ts",
-          ".service.ts",
-          ".service.spec.ts",
-          ".repository.ts",
-          ".repository.spec.ts",
-          ".module.ts"
-        ]
-      }
-    ]
-  }
+  "create-files-batch.templates": [
+    {
+      "label": "NestJS use case",
+      "description": "Creates all the needed files for a new use case in the application.",
+      "files": [
+        {
+          "suffix": ".controller.ts",
+          "additional-path": "./controllers",
+          "content": [
+            "import { Controller } from '@nestjs/common';",
+            "",
+            "@Controller('foo')",
+            "export class FooController {",
+            " constructor() {",
+            " }",
+            "}"
+          ]
+        },
+        {
+          "suffix": ".service.ts",
+          "additional-path": "./services",
+          "content": [
+            "import { Injectable, Logger } from '@nestjs/common';",
+            "import { FooRepository } from './foo.repository';",
+            "",
+            "@Injectable()",
+            "export class FooService {",
+            "  private logger = new Logger(FooService.name);",
+            "  constructor(private readonly fooRepository: FooRepository) {}",
+            "}"
+          ]
+        },
+        {
+          "suffix": ".repository.ts",
+          "additional-path": "./repositories",
+          "content": [
+            "import { Repository } from 'typeorm';",
+            "import { InjectRepository } from '@nestjs/typeorm';",
+            "",
+            "export class FooRepository extends Repository<Entity> {",
+            "  constructor(",
+            "    @InjectRepository(User)",
+            "    private repository: Repository<Entity>,",
+            "  ) {",
+            "    super(",
+            "      repository.target,",
+            "      repository.manager,",
+            "      repository.queryRunner,",
+            "    );",
+            "  }",
+            "}"
+          ]
+        },
+        {
+          "suffix": ".module.ts",
+          "content": [
+            "import { Module } from '@nestjs/common';",
+            "import { FooController } from './foo.controller';",
+            "import { FooRepository } from './foo.repository';",
+            "import { FooService } from './foo.service';",
+            "",
+            "@Module({",
+            "  controllers: [FooController],",
+            "  providers: [FooRepository, FooService],",
+            "})",
+            "export class FooModule {}"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "New NestJS use case with test files",
+      "description": "Creates all the needed files for a new use case in the application including test files.",
+      "files": [
+        { "suffix": ".controller.ts" },
+        { "suffix": ".controller.spec.ts" },
+        { "suffix": ".service.ts" },
+        { "suffix": ".service.spec.ts" },
+        { "suffix": ".repository.ts" },
+        { "suffix": ".repository.spec.ts" },
+        { "suffix": ".module.ts" }
+      ]
+    }
+  ]
 }
 ```
 

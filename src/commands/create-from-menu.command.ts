@@ -11,8 +11,9 @@ import {
   SelectTemplateAction,
 } from "../actions";
 import { CreateFilesStepper } from "../create-files-stepper.abstract";
-import { Step, TExtensionConfig, TTemplateItem } from "../extension.types";
+import { Step, TTemplateItem } from "../extension.types";
 import { CUSTOM_EXTENSION_CONFIG } from "../utils/extension.constants";
+import { getTemplatesConfig } from "../utils/get-configuration";
 
 type TWorkspaceFolder = QuickPickItem & VSWorkspaceFolder;
 
@@ -103,9 +104,7 @@ export class CreateFromMenuCommand extends CreateFilesStepper<FormState> {
   }
 
   private async selectTemplate() {
-    const configs = workspace
-      .getConfiguration("create-files-batch", this.state.workspace?.uri)
-      .get<TExtensionConfig[]>("templates", []);
+    const configs = getTemplatesConfig(this.state.workspace?.uri);
 
     const action = new SelectTemplateAction();
     const selectedTemplate = await action.execute({

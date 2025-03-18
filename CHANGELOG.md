@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## 3.1.0 (2025-03-17)
+
+### 🚀 Features
+
+- add support for additional path declaration for each file in the template;
+
+### 🐛 Fixes
+
+- remove old and non-used configuration `suffixes` property declaration;
+- update README.md file to better reflect expected configuration;
+- update configuration schema for suitable intellisense;
+
 ## 3.0.0 (2025-01-12)
 
 ### 🚀 Features

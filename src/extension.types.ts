@@ -5,7 +5,7 @@ import type {
   WorkspaceFolder as VSWorkspaceFolder,
 } from "vscode";
 
-export type TFileConfig = { suffix: string; content?: string[] };
+export type TFileConfig = { suffix: string; content?: string[], additionalPath?: string };
 
 export type TWorkspaceFolder = QuickPickItem & VSWorkspaceFolder;
 
